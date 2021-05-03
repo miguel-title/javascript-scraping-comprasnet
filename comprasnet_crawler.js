@@ -9,11 +9,11 @@ const puppeteer = require("puppeteer");
     headless: false,
     defaultViewport: null,
     args: ["--start-maximized"],
+    devtools: false,
   });
 
   try {
     const page = await browser.newPage();
-    await page.setDefaultNavigationTimeout(200000);
     await page.goto(link);
     //Login Part
     await page.waitForSelector("button[aria-label='Expandir o card']");
@@ -86,7 +86,7 @@ const puppeteer = require("puppeteer");
     while (!isEnd) {
       console.log("scroll");
       page.evaluate((_) => {
-        window.scrollBy(0, document.body.scrollHeight);
+        window.scrollTo(0, document.body.scrollHeight);
       });
 
       await page.waitForTimeout(10000);
@@ -107,24 +107,34 @@ const puppeteer = require("puppeteer");
         continue;
       }
 
-      let listElements = await page.$x(
-        "/html/body/table/tbody/tr[2]/td/table[2]/tbody/tr[3]/td[2]/table/tbody/tr/td[1]/a"
+      await page.waitForTimeout(1000);
+
+      const [lastElement] = await subframe.$x(
+        "/html/body/table/tbody/tr[2]/td/table[2]/tbody/tr[3]/td[2]/table/tbody/tr[" +
+          ntabledatacount +
+          "]/td[1]/a"
       );
 
-      endelement = listElements[listElements.length - 1];
+      const newPagePromise = new Promise((x) =>
+        browser.once("targetcreated", (target) => x(target.page()))
+      );
+      lastElement.click();
 
-      if (endelement) {
-        console.log("Select the Last element");
-        await page.waitForTimeout(1000);
-        endelement.click();
-      }
+      const newPage = await newPagePromise;
+
+      const [response] = await Promise.all([
+        newPage.waitForResponse((response) =>
+          response.url().includes("em-disputa")
+        ),
+      ]);
+      const dataObj = await response.json();
+      console.log(dataObj);
     }
 
-    console.log("----Click the last lances Element");
-    // await page.close();
-    // await browser.close();
+    await page.close();
+    await browser.close();
   } catch (error) {
     console.log(error);
-    // await browser.close();
+    await browser.close();
   }
 })();
