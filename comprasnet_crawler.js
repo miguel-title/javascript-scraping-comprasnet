@@ -115,7 +115,7 @@ const puppeteer = require("puppeteer");
       }
     }
 
-    console.log("Click the last lances Element");
+    console.log("----Click the last lances Element");
     // await page.close();
     // await browser.close();
   } catch (error) {
