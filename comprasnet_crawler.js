@@ -103,9 +103,10 @@ const puppeteer = require("puppeteer");
         continue;
       }
 
-      const trs = Array.from(page.querySelectorAll("table tbody tr td[1] a"));
-
-      let endelement = trs[trs.length - 1];
+      const endelement = await page.$$eval(
+        "table tbody tr td[1] a",
+        (elements) => elements[elements.length - 1].dataset.utime
+      );
 
       if (endelement) {
         await page.waitForTimeout(1000);
