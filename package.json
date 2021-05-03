@@ -1,0 +1,22 @@
+{
+  "name": "comprasnet",
+  "version": "1.0.0",
+  "description": "comprasnet",
+  "main": "comprasnet_crawler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xiao-title/javascript-scraping-comprasnet.git"
+  },
+  "author": "andrey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xiao-title/javascript-scraping-comprasnet/issues"
+  },
+  "homepage": "https://github.com/xiao-title/javascript-scraping-comprasnet#readme",
+  "dependencies": {
+    "puppeteer": "^9.0.0"
+  }
+}
