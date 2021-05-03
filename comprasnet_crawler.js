@@ -109,6 +109,7 @@ const puppeteer = require("puppeteer");
       );
 
       if (endelement) {
+        console.log("Select the Last element");
         await page.waitForTimeout(1000);
         endelement.click();
       }
