@@ -107,11 +107,11 @@ const puppeteer = require("puppeteer");
         continue;
       }
 
-      const listElements = await page.$x(
+      let listElements = await page.$x(
         "/html/body/table/tbody/tr[2]/td/table[2]/tbody/tr[3]/td[2]/table/tbody/tr/td[1]/a"
       );
 
-      endelement = listElements[count(listElements) - 1];
+      endelement = listElements[listElements.length - 1];
 
       if (endelement) {
         console.log("Select the Last element");
