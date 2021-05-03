@@ -91,7 +91,11 @@ const puppeteer = require("puppeteer");
 
       await page.waitForTimeout(10000);
 
-      let ntabledatacount = (await subframe.$$("tr")).length;
+      let ntabledatacount = (
+        await subframe.$x(
+          "/html/body/table/tbody/tr[2]/td/table[2]/tbody/tr[3]/td[2]/table/tbody/tr"
+        )
+      ).length;
       console.log(ntabledatacount);
 
       if (prevdatacount == ntabledatacount) {
@@ -103,10 +107,11 @@ const puppeteer = require("puppeteer");
         continue;
       }
 
-      const endelement = await page.$$eval(
-        "table tbody tr td:nth-child(1) a",
-        (elements) => elements[elements.length - 1]
+      const listElements = await page.$x(
+        "/html/body/table/tbody/tr[2]/td/table[2]/tbody/tr[3]/td[2]/table/tbody/tr"
       );
+
+      endelement = listElements[ntabledatacount - 1];
 
       if (endelement) {
         console.log("Select the Last element");
