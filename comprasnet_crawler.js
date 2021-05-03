@@ -77,7 +77,7 @@ const puppeteer = require("puppeteer");
     await subframe.waitForSelector("table", { visible: true });
     console.log("Loading the table");
 
-    await page.waitForTimeout(60000);
+    await page.waitForTimeout(10000);
     console.log("finish the waiting");
     //await autoScroll(subframe);
 
@@ -104,8 +104,8 @@ const puppeteer = require("puppeteer");
       }
 
       const endelement = await page.$$eval(
-        "table tbody tr td[1] a",
-        (elements) => elements[elements.length - 1].dataset.utime
+        "table tbody tr td:nth-child(1) a",
+        (elements) => elements[elements.length - 1]
       );
 
       if (endelement) {
@@ -114,7 +114,7 @@ const puppeteer = require("puppeteer");
       }
     }
 
-    console.log("Finish Loading the table");
+    console.log("Click the last lances Element");
     // await page.close();
     // await browser.close();
   } catch (error) {
